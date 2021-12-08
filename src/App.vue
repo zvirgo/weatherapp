@@ -1,28 +1,56 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id="nav">
+      <router-link to="/">AddCity</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import axios from "axios";
+// import db from "./firebase/firebaseinit";
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  data() {
+    return {
+      APIkey: "c55dc8f793ea78f694e30d9af7413816",
+      city: "Detroit",
+      cities: {},
+    };
+  },
+
+  methods: {
+    // getCityWeather() {
+    //   let firebaseDB = db.collection("cities");
+    //   firebaseDB.onSnapshot((snap) => {
+    //     snap.docChanges().forEach(async (doc) => {
+    //       console.log(doc);
+    //     });
+    //   });
+    // },
+    getCurrentWeather() {
+      axios
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=imperial&APPID=${this.APIkey}`
+        )
+        .then((res) => {
+          console.log(res);
+        });
+    },
+  },
+  created() {
+    this.getCurrentWeather();
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Playfair Display", serif;
 }
 </style>
