@@ -1,47 +1,60 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">AddCity</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app>
+    <navigation />
+  </v-app>
 </template>
 
 <script>
 import axios from "axios";
-// import db from "./firebase/firebaseinit";
+import db from "./firebase/firebaseinit";
+import Navigation from "./components/Navigation.vue";
 export default {
   name: "App",
+  components: {
+    Navigation,
+  },
   data() {
     return {
       APIkey: "c55dc8f793ea78f694e30d9af7413816",
-      city: "Detroit",
-      cities: {},
+      cities: [],
     };
   },
 
   methods: {
-    // getCityWeather() {
-    //   let firebaseDB = db.collection("cities");
-    //   firebaseDB.onSnapshot((snap) => {
-    //     snap.docChanges().forEach(async (doc) => {
-    //       console.log(doc);
-    //     });
-    //   });
-    // },
-    getCurrentWeather() {
-      axios
-        .get(
-          `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=imperial&APPID=${this.APIkey}`
-        )
-        .then((res) => {
-          console.log(res);
+    getCityWeather() {
+      let firebaseDB = db.collection("cities");
+      firebaseDB.onSnapshot((snap) => {
+        snap.docChanges().forEach(async (doc) => {
+          if (doc.type === "added") {
+            try {
+              const reponse = await axios.get(
+                `https://api.openweathermap.org/data/2.5/weather?q=${
+                  doc.doc.data().city
+                }&units=imperial&APPID=${this.APIkey}`
+              );
+              const data = reponse.data;
+              console.log(doc.doc.data());
+              firebaseDB
+                .doc(doc.doc.id)
+                .update({
+                  currentWeather: data,
+                })
+                .then(() => {
+                  this.cities.push(doc.doc.data());
+                })
+                .then(() => {
+                  console.log(this.cities);
+                });
+            } catch (err) {
+              console.log(err);
+            }
+          }
         });
+      });
     },
   },
   created() {
-    this.getCurrentWeather();
+    this.getCityWeather();
   },
 };
 </script>

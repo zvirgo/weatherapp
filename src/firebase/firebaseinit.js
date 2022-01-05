@@ -1,10 +1,7 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
+var firebaseConfig = {
   apiKey: "AIzaSyBq9OXDBRH9W3ZvSc-IErEXLNF02Gv29k4",
   authDomain: "weatherapp-4acf3.firebaseapp.com",
   projectId: "weatherapp-4acf3",
@@ -12,7 +9,6 @@ const firebaseConfig = {
   messagingSenderId: "74008603349",
   appId: "1:74008603349:web:a001c246f3bfdcca8d505c"
 };
-
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export default app
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+export default firebaseApp.firestore();
