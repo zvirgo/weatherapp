@@ -26,6 +26,7 @@ export default {
     return {
       APIkey: "c55dc8f793ea78f694e30d9af7413816",
       cities: [],
+  
     };
   },
   methods: {
@@ -49,7 +50,7 @@ export default {
                 .then(() => {
                   this.cities.push(doc.doc.data());
                 })
-                .then(() => {}); 
+                .then(() => {});
             } catch (err) {
               console.log(err);
             }
@@ -63,10 +64,12 @@ export default {
         });
       });
     },
+   
   },
   created() {
     this.getCityWeather();
   },
+ 
 };
 </script>
 

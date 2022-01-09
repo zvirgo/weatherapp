@@ -1,17 +1,35 @@
 <template>
   <div class="main">
-    <navigation />
+    <navigation :addCityActive="addCityActive" />
   </div>
 </template>
 <script>
-
 import Navigation from "./components/Navigation.vue";
 export default {
   name: "App",
+  data() {
+    return {
+      addCityActive: null,
+    };
+  },
   components: {
     Navigation,
   },
-  
+  methods: {
+    checkRoute() {
+      if (this.$route.name === "AddCity") {
+        this.addCityActive = true;
+      } else {
+        this.addCityActive = false;
+      }
+      console.log(this.addCityActive);
+    },
+  },
+  watch: {
+    $route() {
+      this.checkRoute();
+    },
+  },
 };
 </script>
 

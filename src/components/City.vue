@@ -1,6 +1,6 @@
 <template>
-  <div class="city">
-    <v-btn v-if="edit" @click="removecity" icon class="edit">
+  <div @click="weatherDetails" class="city">
+    <v-btn v-if="edit" @click="removecity" icon class="edit" ref="edit">
       <v-icon>mdi-trash-can-outline</v-icon>
     </v-btn>
     <div class="video">
@@ -58,6 +58,16 @@ export default {
         .then(() => {
           db.collection("cities").doc(this.id).delete();
         });
+    },
+    weatherDetails(e) {
+      if (e.target === this.$refs.edit) {
+          console.log(this.$refs.edit)
+      } else {
+        this.$router.push({
+          name: "Weather",
+          params: { city: this.city.city },
+        });
+      }
     },
   },
 };

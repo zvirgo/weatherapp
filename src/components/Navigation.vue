@@ -33,6 +33,7 @@ import Modal from "./Modal.vue";
 export default {
   components: { Modal },
   name: "Navigation",
+  props: ["addCityActive"],
   data() {
     return {
       showModal: false,
@@ -59,6 +60,6 @@ export default {
 
 <style lang="scss" scoped>
 .edit-active {
-  color: #64B5F6!important;
+  color: #64b5f6 !important;
 }
 </style>
