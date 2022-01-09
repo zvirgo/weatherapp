@@ -7,10 +7,10 @@
         </router-link>
       </div>
       <v-spacer></v-spacer>
-      <v-btn icon>
+      <v-btn @click="editCities" ref="editCity" icon>
         <v-icon>mdi-square-edit-outline</v-icon>
       </v-btn>
-      <v-btn icon>
+      <v-btn icon @click="reloadApp">
         <v-icon>mdi-refresh</v-icon>
       </v-btn>
       <v-btn icon @click="openModal">
@@ -18,12 +18,12 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <router-view />
+      <router-view :edit="edit" />
     </v-main>
     <modal
       :showModal="showModal"
       @disagree="showModal = false"
-      @agree="showModal = false"
+      @agree="addCity"
     />
   </v-app>
 </template>
@@ -36,15 +36,29 @@ export default {
   data() {
     return {
       showModal: false,
+      edit: "",
     };
   },
   methods: {
     openModal() {
       this.showModal = true;
     },
+    addCity() {
+      this.showModal = false;
+    },
+    reloadApp() {
+      location.reload();
+    },
+    editCities() {
+      this.$refs.editCity.$el.classList.toggle("edit-active");
+      this.edit = !this.edit;
+    },
   },
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.edit-active {
+  color: #64B5F6!important;
+}
 </style>

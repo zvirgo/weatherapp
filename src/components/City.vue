@@ -1,5 +1,8 @@
 <template>
   <div class="city">
+    <v-btn v-if="edit" @click="removecity" icon class="edit">
+      <v-icon>mdi-trash-can-outline</v-icon>
+    </v-btn>
     <div class="video">
       <video
         autoplay
@@ -11,6 +14,7 @@
         height="250"
       ></video>
     </div>
+
     <div class="weather">
       <span>{{ this.city.city }}</span>
       <v-spacer></v-spacer>
@@ -30,11 +34,31 @@
   </div>
 </template>
 <script>
+import db from "../firebase/firebaseinit";
+
 export default {
   name: "city",
-  props: ["city"],
-  created() {
-    console.log(this.city);
+  props: ["city", "edit"],
+  data() {
+    return {
+      id: null,
+    };
+  },
+  created() {},
+  methods: {
+    removecity() {
+      db.collection("cities")
+        .where("city", "==", `${this.city.city}`)
+        .get()
+        .then((docs) => {
+          docs.forEach((doc) => {
+            this.id = doc.id;
+          });
+        })
+        .then(() => {
+          db.collection("cities").doc(this.id).delete();
+        });
+    },
   },
 };
 </script>
@@ -50,11 +74,18 @@ export default {
   color: #fff;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 
+  .edit {
+    color: #fff;
+    z-index: 1;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+  }
   .weather {
     display: flex;
     z-index: 1;
     justify-content: flex-end;
-    align-items: flex-end;
+    align-items: flex-start;
     flex: 1;
 
     span {

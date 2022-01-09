@@ -4,7 +4,7 @@
       <v-row class="d-flex align-center">
         <v-col cols="12" sm="4" v-for="(city, index) in cities" :key="index">
           <div class="city-link">
-            <city :city="city" />
+            <city :city="city" :edit="edit" />
           </div>
         </v-col>
       </v-row>
@@ -21,7 +21,7 @@ export default {
   components: {
     City,
   },
-
+  props: ["edit"],
   data() {
     return {
       APIkey: "c55dc8f793ea78f694e30d9af7413816",
@@ -33,7 +33,7 @@ export default {
       let firebaseDB = db.collection("cities");
       firebaseDB.onSnapshot((snap) => {
         snap.docChanges().forEach(async (doc) => {
-          if (doc.type === "added") {
+          if (doc.type === "added" && !doc.doc.Nd) {
             try {
               const reponse = await axios.get(
                 `https://api.openweathermap.org/data/2.5/weather?q=${
@@ -49,11 +49,16 @@ export default {
                 .then(() => {
                   this.cities.push(doc.doc.data());
                 })
-                .then(() => {
-                });
+                .then(() => {}); 
             } catch (err) {
               console.log(err);
             }
+          } else if (doc.type === "added" && doc.doc.Nd) {
+            this.cities.push(doc.doc.data());
+          } else if (doc.type === "removed") {
+            this.cities = this.cities.filter(
+              (city) => city.city != doc.doc.data().city
+            );
           }
         });
       });
