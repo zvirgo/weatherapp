@@ -1,6 +1,11 @@
 <template>
   <div class="main">
-    <navigation :addCityActive="addCityActive" />
+    <navigation
+      :addCityActive="addCityActive"
+      :is-day="dayTime"
+      :is-night="nightTime"
+      :resetDays="resetDays"
+    />
   </div>
 </template>
 <script>
@@ -10,10 +15,15 @@ export default {
   data() {
     return {
       addCityActive: null,
+      isDay: null,
+      isNight: null,
     };
   },
   components: {
     Navigation,
+  },
+  created() {
+    this.checkRoute();
   },
   methods: {
     checkRoute() {
@@ -22,7 +32,15 @@ export default {
       } else {
         this.addCityActive = false;
       }
-      console.log(this.addCityActive);
+    },
+    dayTime() {
+      this.isDay = !this.isDay;
+    },
+    nightTime() {
+      this.isNight = !this.isNight;
+    },
+    resetDays() {
+      (this.isDay = false), (this.isNight = false);
     },
   },
   watch: {
@@ -38,6 +56,9 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Playfair Display", serif;
+  font-family: "Quicksand", sans-serif;
+}
+a {
+  text-decoration: none !important;
 }
 </style>

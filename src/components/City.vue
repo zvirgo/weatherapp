@@ -20,9 +20,7 @@
       <v-spacer></v-spacer>
 
       <v-row justify="end">
-        <span>
-          {{ Math.round(this.city.currentWeather.main.temp) }} &deg;
-        </span>
+        <span> {{ temp(this.city.currentWeather.main.temp) }} &deg;C </span>
         <img
           :src="
             require(`../../public/conditions/${this.city.currentWeather.weather[0].icon}.svg`)
@@ -45,6 +43,7 @@ export default {
     };
   },
   created() {},
+
   methods: {
     removecity() {
       db.collection("cities")
@@ -61,13 +60,18 @@ export default {
     },
     weatherDetails(e) {
       if (e.target === this.$refs.edit) {
-          console.log(this.$refs.edit)
+        console.log(this.$refs.edit);
       } else {
         this.$router.push({
           name: "Weather",
           params: { city: this.city.city },
         });
       }
+    },
+    temp(val) {
+      const fahrenheit = val;
+      const celsius = Math.round((fahrenheit - 32) * (5 / 9));
+      return celsius;
     },
   },
 };
