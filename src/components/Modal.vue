@@ -57,21 +57,27 @@ export default {
       this.$emit("disagree");
     },
     async agree() {
-      // this.$refs.form.agree();
       if (this.city) {
-        const res = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=imperial&APPID=${this.APIkey}`
-        );
-        const data = await res.data;
-        db.collection("cities")
-          .doc()
-          .set({
-            city: this.city,
-            currentWeather: data,
-          })
-          .then(() => {
-            this.$emit("agree");
-          });
+        try {
+          const res = await axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&units=imperial&APPID=${this.APIkey}`
+          );
+          const data = await res.data;
+          db.collection("cities")
+            .doc()
+            .set({
+              city: this.city,
+              currentWeather: data,
+            })
+            .then(() => {
+              this.$emit("agree");
+            });
+        } catch (error) {
+          this.$vToastify.warning(
+            `${this.city} does not exist,
+             Please try again!`
+          );
+        }
       }
     },
   },

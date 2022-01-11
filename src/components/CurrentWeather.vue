@@ -53,14 +53,10 @@ export default {
   name: "CurrentWeather",
   props: ["currentWeather"],
   created() {
-    console.log(this.currentWeather);
+   
   },
   methods: {
-    temp(val) {
-      const fahrenheit = val;
-      const celsius = Math.round((fahrenheit - 32) * (5 / 9));
-      return celsius;
-    },
+   
   },
 };
 </script>

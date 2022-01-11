@@ -10,8 +10,14 @@
     >
       Waiting ...
     </v-progress-circular>
-    <div v-else class="weather-wrap night " :class="{  }">
-      <current-weather  :currentWeather="currentWeather" />
+    <div v-else class="weather-wrap night" :class="{}">
+      <current-weather :currentWeather="currentWeather" />
+      <v-divider class="mx-4" dark></v-divider>
+      <hourly-weather :forecast="forecast" />
+      <v-divider class="mx-4" dark></v-divider>
+      <weekly-forecast :forecast="forecast" />
+      <v-divider class="mx-4" dark></v-divider>
+      <additional-info :currentWeather="currentWeather"/>
     </div>
   </div>
 </template>
@@ -20,8 +26,11 @@
 import axios from "axios";
 import db from "../firebase/firebaseinit";
 import CurrentWeather from "../components/CurrentWeather.vue";
+import HourlyWeather from "../components/HourlyWeather.vue";
+import WeeklyForecast from "../components/WeeklyForecast.vue";
+import AdditionalInfo from "../components/AdditionalInfo.vue";
 export default {
-  components: { CurrentWeather },
+  components: { CurrentWeather, HourlyWeather, WeeklyForecast, AdditionalInfo },
   name: "weather",
   component: {},
   data() {

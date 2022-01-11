@@ -21,12 +21,15 @@
 
       <v-row justify="end">
         <span> {{ temp(this.city.currentWeather.main.temp) }} &deg;C </span>
-        <img
+        <v-img
+          contain
           :src="
             require(`../../public/conditions/${this.city.currentWeather.weather[0].icon}.svg`)
           "
           alt=""
-        />
+          max-height="25"
+          max-width="25"
+        ></v-img>
       </v-row>
     </div>
   </div>
@@ -68,11 +71,6 @@ export default {
         });
       }
     },
-    temp(val) {
-      const fahrenheit = val;
-      const celsius = Math.round((fahrenheit - 32) * (5 / 9));
-      return celsius;
-    },
   },
 };
 </script>
@@ -105,11 +103,6 @@ export default {
     span {
       font-size: 35px;
       margin-right: 8px;
-    }
-
-    img {
-      height: 20px;
-      width: auto;
     }
   }
 
