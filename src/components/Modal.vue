@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import axios from "axios";
 import db from "../firebase/firebaseinit";
 export default {
@@ -46,11 +47,13 @@ export default {
   },
   data() {
     return {
-      APIkey: "c55dc8f793ea78f694e30d9af7413816",
       valid: true,
       city: "",
       cityRules: [(v) => !!v || "City is required"],
     };
+  },
+  computed: {
+    ...mapState(["APIkey"]),
   },
   methods: {
     disagree() {

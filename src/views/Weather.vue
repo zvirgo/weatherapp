@@ -17,12 +17,13 @@
       <v-divider class="mx-4" dark></v-divider>
       <weekly-forecast :forecast="forecast" />
       <v-divider class="mx-4" dark></v-divider>
-      <additional-info :currentWeather="currentWeather"/>
+      <additional-info :currentWeather="currentWeather" />
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import axios from "axios";
 import db from "../firebase/firebaseinit";
 import CurrentWeather from "../components/CurrentWeather.vue";
@@ -35,7 +36,6 @@ export default {
   component: {},
   data() {
     return {
-      APIkey: "c55dc8f793ea78f694e30d9af7413816",
       forecast: null,
       currentWeather: null,
       loading: true,
@@ -44,6 +44,9 @@ export default {
       isNight: null,
       timePosition: null,
     };
+  },
+  computed: {
+    ...mapState(["APIkey"]),
   },
   created() {
     this.getWeather();

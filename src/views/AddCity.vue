@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import City from "../components/City.vue";
 import axios from "axios";
 import db from "../firebase/firebaseinit";
@@ -24,11 +25,13 @@ export default {
   props: ["edit"],
   data() {
     return {
-      APIkey: "c55dc8f793ea78f694e30d9af7413816",
       cities: [],
-  
     };
   },
+  computed: {
+    ...mapState(["APIkey"])
+  },
+
   methods: {
     getCityWeather() {
       let firebaseDB = db.collection("cities");
@@ -64,12 +67,10 @@ export default {
         });
       });
     },
-   
   },
   created() {
     this.getCityWeather();
   },
- 
 };
 </script>
 
